@@ -28,8 +28,8 @@
 
 // Estrutura dos Territórios
 struct Territorios {
-    char nome[];
-    char cor[];
+    char nome[5];
+    char cor[5];
     int tropas;
 };
 
@@ -42,16 +42,17 @@ void limparBuff(){
 // Função principal
 int main() {
 
-    struc Territorios territorio[];
-    printf("========================================================================");
-    printf("Vamos cadastrar os 5 territórios iniciais do nosso mundo.");
+    struct Territorios territorio[5];
+    printf("===================================================\n");
+    printf("\n Vamos cadastrar os 5 territórios iniciais do nosso mundo.\n");
 
     int i=0;
 
-    for(i=0; i<5; i++) {
-        printf("---Cadastrando Território %d",i);
+    for(i=0+1; i<MAX_TERRITORIOS; i++) {
+        printf("\n---Cadastrando o Território nº %d\n",i);
     }
 
+    limparBuff();
 
 
 
