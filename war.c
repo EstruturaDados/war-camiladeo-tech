@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 // Constantes
 #define MAX_TERRITORIOS 5
@@ -27,8 +28,12 @@
 //Criar um array para armazenar 5 territórios
 //Após a inserção mostrar os dados inseridos
 //Após a inserção dos 5 territórios mostrar msg de que já esta cheio e mostrar todos os territórios
+// Nivel aventureiro
+// Estrutura dos Territórios:
+// Substituir o vetor estático por alocação dinâmica com calloc 
+// Criar uma função para simular ataques entre dois territórios
+// Utilizar números aleatórios para representar dados de batalha
 
-// Estrutura dos Territórios
 typedef struct Territorio {
     char nome[MAX_NOME];    //Nome do território (ex: "Brasil", "África do Sul")
     char cor[MAX_COR];      //Cor do exército
@@ -41,10 +46,42 @@ void limparBuff(){
     while((c=getchar()) != '\n' && c != EOF);
 }
 
+//Função de ataque
+void atacar(Territorio *atacante, Territorio *defensor){
+    int dadoA = rand() % 6 + 1;
+    int dadoB = rand() % 6 + 1;
+
+    printf("\n===== BATALHA =====\n");
+    printf("%s (Atacante) lançou: %d\n", atacante->nome, dadoA);
+    printf("%s (Defensor) lançou: %d\n", defensor->nome, dadoB);
+
+    if (dadoA > dadoB) {
+        defensor->numTropas--;
+        printf("\n>>> %s venceu! %s perdeu 1 tropa.\n", atacante->nome, defensor->nome);
+    } else if (dadoB > dadoA) {
+        atacante->numTropas--;
+        printf("\n>>> %s venceu! %s perdeu 1 tropa.\n", defensor->nome, atacante->nome);
+    } else {
+        printf("\n>>> Empate! Nenhuma tropa perdida.\n");
+    }
+}
+
+//função para alocar memória
+Territorio* alocarTerritorios(int quantidade){
+    Territorio *ptr = calloc(quantidade, sizeof(Territorio));
+    if(ptr == NULL){
+        printf("Erro ao alocar memória.\n")
+        exit(1); //Encerra o programa
+    }
+    return ptr; //deu certo
+}
+
 // Função principal
 int main() {
 
-    struct Territorio territorios[MAX_TERRITORIOS];
+    srand(time(NULL));
+    Territorio *territorios = alocarTerritorios(MAX_TERRITORIOS);
+    
     int i;
 
     printf("===================================================\n");
@@ -76,6 +113,17 @@ int main() {
         printf("\n==========================\n");
     }
 
+    //Batalha
+    int a, b;
+    printf("\nSelecione o Território que irá atacar (1 a 5): ");
+    scanf("%d", &a);
+
+    printf("\nSelecione o Território que irá defender (1 a 5): ");
+    scanf("%d", &b);
+
+    atacar(&territorios[a - 1], &territorios[b - 1]);
+
+    free(territorios);
     limparBuff();
     
     return 0;
