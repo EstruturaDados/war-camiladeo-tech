@@ -70,7 +70,7 @@ void atacar(Territorio *atacante, Territorio *defensor){
 Territorio* alocarTerritorios(int quantidade){
     Territorio *ptr = calloc(quantidade, sizeof(Territorio));
     if(ptr == NULL){
-        printf("Erro ao alocar memória.\n")
+        printf("Erro ao alocar memória.\n");
         exit(1); //Encerra o programa
     }
     return ptr; //deu certo
